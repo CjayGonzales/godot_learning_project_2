@@ -19,19 +19,20 @@ func _physics_process(delta: float) -> void:
 		double_jump = "grounded"
 	# Handle jump.	
 	if Input.is_action_just_pressed("ui_accept"):
+		animated_sprite.play("jump")
+		print("jump")
 		double_jump_function()
 	
 		
 	# Handle Click
 	if Input.is_action_just_pressed("left_click"):
-		
+		animated_sprite.play("attack")
 		print("Clicked!")
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
-		print(direction)
 		
 		# this is what's getting the player to move
 		velocity.x = direction * SPEED
@@ -42,11 +43,11 @@ func _physics_process(delta: float) -> void:
 		elif direction == -1:
 			animated_sprite.flip_h = true
 			animated_sprite.play("running")
-		
+		elif direction == 0:
+			animated_sprite.play("idle")
 	else:
-		animated_sprite.play("idle")
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+		
 	move_and_slide()
 
 
@@ -55,6 +56,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 # double jump mechanic works
 func double_jump_function():
+	animated_sprite.play("jump")
 	match double_jump:
 		"grounded":
 			velocity.y = JUMP_VELOCITY
@@ -64,6 +66,6 @@ func double_jump_function():
 			double_jump = "second_jump"
 		"second_jump":
 			pass
-		
+	
 	
 	
