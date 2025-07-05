@@ -39,16 +39,16 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	pass # Replace with function body.
 
 func double_jump_function():
-	print(double_jump)
 	
-	if double_jump == "grounded":
-		velocity.y = JUMP_VELOCITY
-		double_jump = "first_jump"
+	match double_jump:
+		"grounded":
+			velocity.y = JUMP_VELOCITY
+			double_jump = "first_jump"
+		"first_jump":
+			velocity.y = JUMP_VELOCITY - 50
+			double_jump = "second_jump"
+		"second_jump":
+			pass
 		
-	elif double_jump == "first_jump":
-		velocity.y = JUMP_VELOCITY - 50
-		double_jump = "second_jump"
-		
-	if double_jump == "second_jump":
-		pass
+	
 	
